@@ -5,12 +5,58 @@ import express from "express";
  */
 const app = express();
 
-app.get("/caraio", (request, response) => {
+/**
+ * Get list of all games from database
+ *
+ * @return list of games
+ */
+app.get("/games", (request, response) => {
+  return response.json([]);
+});
+
+/**
+ * Creates an ad
+ *
+ * @return Http status code
+ */
+app.post("/ads", (request, response) => {
+  return response.status(201).json([]);
+});
+
+/**
+ *  Get all saved ads from database
+ *
+ * @return list with all ads
+ */
+app.get("/ads", (request, response) => {
   return response.json([
-    { id: 1, description: "Alto, com 1,82 cm" },
-    { id: 2, description: "Baixo, com 1,65 cm" },
-    { id: 3, description: "Médio, com 1,72 cm" },
+    { id: 1, description: "Anúncio 1" },
+    { id: 2, description: "Anúncio 2" },
+    { id: 3, description: "Anúncio 3" },
+    { id: 4, description: "Anúncio 4" },
+    { id: 5, description: "Anúncio 5" },
+    { id: 6, description: "Anúncio 6" },
   ]);
+});
+
+/**
+ * Get a list of ads from a game using the game id
+ *
+ * @return list of ads from one single game
+ */
+app.get("/games/:id/ads", (request, response) => {
+  return response.json([
+    { id: 1, description: "Anúncio 1" },
+    { id: 2, description: "Anúncio 2" },
+    { id: 3, description: "Anúncio 3" },
+    { id: 4, description: "Anúncio 4" },
+    { id: 5, description: "Anúncio 5" },
+    { id: 6, description: "Anúncio 6" },
+  ]);
+});
+
+app.get("ads/:id/discord", (request, response) => {
+  return response.json([]);
 });
 
 app.listen(3333);
