@@ -10,6 +10,17 @@ bannerUrl
 
 ### Ad 
 
+id
+gameId
+name
+yearsPlaying
+discord
+weekDays
+hourStart
+hourEnd
+useVoiceChannel
+createdAt
+
 ## Caso de Uso
 
 - Listagem de games com contagem de anúncios
