@@ -1,4 +1,5 @@
 import express from "express";
+import { PrismaClient } from "@prisma/client";
 
 /**
  * Creates an Express application. The express() function is a top-level function exported by the express module.
@@ -6,12 +7,29 @@ import express from "express";
 const app = express();
 
 /**
- * Get list of all games from database
- *
- * @return list of games
+ * Configuration variable for Prisma
  */
-app.get("/games", (request, response) => {
-  return response.json([]);
+const prisma: PrismaClient = new PrismaClient({
+  log: ['query']
+});
+
+/**
+ * Get list of all games from database and add "count" column 
+ * to show how many ads a game has
+ *
+ * @return list of games + count column
+ */
+app.get("/games", async (request, response)  => {
+  const games = await prisma.game.findMany({
+    include: {
+      _count: {
+        select:{
+          ads: true,
+        }
+      }
+    }
+  });
+  return response.json(games);
 });
 
 /**
