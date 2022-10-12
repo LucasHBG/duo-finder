@@ -1,5 +1,9 @@
 # Back-End
 
+- NodeJS
+- Database: SQLite
+- ORM: Prisma
+
 ## Entidades
 
 ### Game 
