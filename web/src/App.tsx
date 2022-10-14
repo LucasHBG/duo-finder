@@ -90,7 +90,7 @@ function App() {
             </span>
           </div>
 
-          <button className="px-3 py-4 bg-violet-500 hover:bg-violet-600 text-white items-center gap-3 rounded flex">
+          <button type="button" className="px-3 py-4 bg-violet-500 hover:bg-violet-600 text-white items-center gap-3 rounded flex">
             <MagnifyingGlassPlus size={24} />
             Publicar Anúncio
           </button>
