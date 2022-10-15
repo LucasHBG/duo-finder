@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import { convertStringHourToMinutes } from "./utils/convert-string-hour-to-minutes";
 import { convertStringMinutesToHour } from "./utils/convert-string-minutes-to-hour";
@@ -10,6 +11,9 @@ const app = express();
 
 // Enables Express library to accept JSON data
 app.use(express.json());
+
+//! Need to set up your origin or leave it open to be used by everyone
+app.use(cors());
 
 /**
  * Configuration variable for Prisma
@@ -52,7 +56,7 @@ app.post("/games/:id/ads", async (request, response) => {
             name: body.name,
             yearsPlaying: body.yearsPlaying,
             discord: body.discord,
-            weekDays: body.weekDays.join(','),
+            weekDays: body.weekDays.join(","),
             hourStart: convertStringHourToMinutes(body.hourStart),
             hourEnd: convertStringHourToMinutes(body.hourEnd),
             useVoiceChannel: body.useVoiceChannel,
@@ -68,14 +72,9 @@ app.post("/games/:id/ads", async (request, response) => {
  * @return list with all ads
  */
 app.get("/ads", (request, response) => {
-    return response.json([
-        { id: 1, description: "Anúncio 1" },
-        { id: 2, description: "Anúncio 2" },
-        { id: 3, description: "Anúncio 3" },
-        { id: 4, description: "Anúncio 4" },
-        { id: 5, description: "Anúncio 5" },
-        { id: 6, description: "Anúncio 6" },
-    ]);
+    const ads = prisma.ad.findMany();
+
+    return response.json(ads);
 });
 
 /**
