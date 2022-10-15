@@ -71,8 +71,8 @@ app.post("/games/:id/ads", async (request, response) => {
  *
  * @return list with all ads
  */
-app.get("/ads", (request, response) => {
-    const ads = prisma.ad.findMany();
+app.get("/ads", async (request, response) => {
+    const ads = await prisma.ad.findMany();
 
     return response.json(ads);
 });
