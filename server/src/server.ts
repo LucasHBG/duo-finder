@@ -1,6 +1,7 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { convertStringHourToMinutes } from "./utils/convert-string-hour-to-minutes";
+import { convertStringMinutesToHour } from "./utils/convert-string-minutes-to-hour";
 
 /**
  * Creates an Express application. The express() function is a top-level function exported by the express module.
@@ -108,6 +109,8 @@ app.get("/games/:id/ads", async (request, response) => {
             return {
                 ...ad,
                 weekDays: ad.weekDays.split(","),
+                hourStart: convertStringMinutesToHour(ad.hourStart),
+                hourEnd: convertStringMinutesToHour(ad.hourEnd),
             };
         })
     );
