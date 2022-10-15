@@ -1,10 +1,14 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { convertStringHourToMinutes } from "./utils/convert-string-hour-to-minutes";
 
 /**
  * Creates an Express application. The express() function is a top-level function exported by the express module.
  */
 const app = express();
+
+// Enables Express library to accept JSON data
+app.use(express.json());
 
 /**
  * Configuration variable for Prisma
@@ -37,8 +41,24 @@ app.get("/games", async (request, response) => {
  *
  * @return Http status code
  */
-app.post("/ads", (request, response) => {
-    return response.status(201).json([]);
+app.post("/games/:id/ads", async (request, response) => {
+    const gameId = request.params.id;
+    const body: any = request.body;
+
+    const ad = await prisma.ad.create({
+        data: {
+            gameId: gameId,
+            name: body.name,
+            yearsPlaying: body.yearsPlaying,
+            discord: body.discord,
+            weekDays: body.weekDays.join(','),
+            hourStart: convertStringHourToMinutes(body.hourStart),
+            hourEnd: convertStringHourToMinutes(body.hourEnd),
+            useVoiceChannel: body.useVoiceChannel,
+        },
+    });
+
+    return response.status(201).json(ad);
 });
 
 /**
