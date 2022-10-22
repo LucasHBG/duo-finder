@@ -3,8 +3,24 @@ import { MagnifyingGlassPlus } from "phosphor-react";
 import "./styles/main.css";
 
 import logoImg from "./assets/logo-nlw.svg";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [gamesList, setGamesList] = useState([]);
+
+  useEffect(() => {
+    loadGames();
+  }, [])
+
+  function loadGames() {
+    const result = fetch('localhost:3333/games')
+      .then((data) => data.json())
+      .then((data) => setGamesList(data.body))
+      .catch((error) => console.log("Deu BO aqui: " + error))
+
+    console.log("Resultado da request: " + result);
+  }
+
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
       <img src={logoImg} alt="NLW eSports" />
@@ -19,6 +35,20 @@ function App() {
 
       {/* Carroussel of images from twitch */}
       <div className="grid grid-cols-6 gap-6 mt-16">
+
+        {gamesList.map((games: any) => (
+          <a href="" className="relative rounded-lg overflow-hidden">
+            <img src="/game-1.png" alt="" />
+
+            <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
+              <strong className="font-bold text-white block">
+                {games?.title}
+              </strong>
+              <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
+            </div>
+          </a>
+        ))}
+
         <a href="" className="relative rounded-lg overflow-hidden">
           <img src="/game-1.png" alt="" />
 
