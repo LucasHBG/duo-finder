@@ -4,21 +4,24 @@ import "./styles/main.css";
 
 import logoImg from "./assets/logo-nlw.svg";
 import { useEffect, useState } from "react";
+import { Game } from "./model/Game";
+import GameBanner from "./GameBanner";
 
 function App() {
-  const [gamesList, setGamesList] = useState([]);
+  const [gamesList, setGamesList] = useState<Game[]>([]);
 
   useEffect(() => {
     loadGames();
   }, [])
 
   function loadGames() {
-    const result = fetch('localhost:3333/games')
-      .then((data) => data.json())
-      .then((data) => setGamesList(data.body))
-      .catch((error) => console.log("Deu BO aqui: " + error))
-
-    console.log("Resultado da request: " + result);
+    fetch('http://localhost:3333/games')
+      .then(response => response.json())
+      .then(data => {
+        setGamesList(data)
+        console.log(data);
+      })
+      .catch(error => console.log("Deu BO aqui: " + error))
   }
 
   return (
@@ -36,76 +39,16 @@ function App() {
       {/* Carroussel of images from twitch */}
       <div className="grid grid-cols-6 gap-6 mt-16">
 
-        {gamesList.map((games: any) => (
-          <a href="" className="relative rounded-lg overflow-hidden">
-            <img src="/game-1.png" alt="" />
-
-            <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-              <strong className="font-bold text-white block">
-                {games?.title}
-              </strong>
-              <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-            </div>
-          </a>
+        {gamesList?.map(game => (
+          <GameBanner
+            key={game.id}
+            title={game.title}
+            bannerUrl={game.bannerUrl}
+            adsCount={game._count.ads}
+          />
+          
         ))}
 
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
-
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-2.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">Dota 2</strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
-
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-3.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">CSGO</strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
-
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-4.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">Apex Legends</strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
-
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-5.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">Fortnite</strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
-
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="/game-6.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-nlw-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              World of Warcraft
-            </strong>
-            <span className="text-zinc-300 text-sm block"> 4 anúncios</span>
-          </div>
-        </a>
       </div>
 
       <div className="pt-1 bg-nlw-gradient w-full max-w-[1200px] justify-center rounded-lg overflow-hidden mt-8">
