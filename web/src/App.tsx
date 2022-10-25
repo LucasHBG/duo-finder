@@ -1,11 +1,10 @@
-import { MagnifyingGlassPlus } from "phosphor-react";
-
 import "./styles/main.css";
 
-import logoImg from "./assets/logo-nlw.svg";
 import { useEffect, useState } from "react";
-import { Game } from "./model/Game";
+import logoImg from "./assets/logo-nlw.svg";
+import CreateAdBanner from "./CreateAdBanner";
 import GameBanner from "./GameBanner";
+import { Game } from "./model/Game";
 
 function App() {
   const [gamesList, setGamesList] = useState<Game[]>([]);
@@ -51,24 +50,7 @@ function App() {
 
       </div>
 
-      <div className="pt-1 bg-nlw-gradient w-full max-w-[1200px] justify-center rounded-lg overflow-hidden mt-8">
-        <div className="bg-[#2A2634] px-8 py-6 flex justify-between items-center">
-          {/* Left side banner text */}
-          <div>
-            <strong className="text-white text-2xl font-black block">
-              Não encontrou seu duo?
-            </strong>
-            <span className="text-zinc-400 block">
-              Publique um anúncio para encontrar novos players!
-            </span>
-          </div>
-
-          <button type="button" className="px-3 py-4 bg-violet-500 hover:bg-violet-600 text-white items-center gap-3 rounded flex">
-            <MagnifyingGlassPlus size={24} />
-            Publicar Anúncio
-          </button>
-        </div>
-      </div>
+      <CreateAdBanner />
     </div>
   );
 }
